@@ -1,4 +1,4 @@
-function addChildren(parent, children) {
+export function addChildren(parent, children) {
     children.forEach(child => parent.appendChild(child));
 }
 

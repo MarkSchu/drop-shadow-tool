@@ -11,8 +11,5 @@
         "netlify-cli": "*"
     },
     "dependencies": {
-        "gotrue-js": "*",
-        "mongodb": "*",
-        "mongoose": "*"
     }
 }
