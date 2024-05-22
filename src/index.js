@@ -15,28 +15,28 @@ function ColorInput({label, value, handler}) {
     }
 
     return (
-        element('div', {},
+        element('div', {className: 'control'},
             element('label', {textContent: label}),
             element('input', {
                 type: 'color', 
                 value, 
                 oninput
             }),
-            element('span', {textContent: value})
+            element('div', {textContent: value})
         )
     )
 }
 
 function RangeInput({label, value, handler}) {
-
+    
     const oninput = (e) => {
         const value = e.target.value;
-        e.target.nextElementSibling.textContent = value;
+        e.target.nextElementSibling.textContent = value.animVal ? value.animVal.value : value;
         handler(value);
     }
 
     return (
-        element('div', {},
+        element('div', {className: 'control'},
             element('label', {textContent: label}),
             element('input', {
                 type: 'range', 
@@ -45,7 +45,7 @@ function RangeInput({label, value, handler}) {
                 max: 400, 
                 oninput
             }),
-            element('span', {textContent: value})
+            element('div', {textContent: value})
         )
     )
 }
@@ -53,10 +53,7 @@ function RangeInput({label, value, handler}) {
 function Display(circle) {
     return (
         svg('svg', {
-            // viewBox: '-400 -400 800 800', 
-            // width: '400', 
-            // height: '400',
-            // viewBox: '-400 -400 800 800', 
+            viewBox: '-400 -400 800 800', 
             width: '100%', 
             height: '100%'
             
@@ -72,41 +69,44 @@ function Controls(dropShadow, circle) {
         dropShadow[prop] = value;
         circle.setAttribute('filter', getDropshadowStr(dropShadow));
     }
-
+    
     return (
         element('div', {className: 'controls'},
+            element('h4', {textContent: 'Background'}),
             ColorInput({
-                label: 'Background Color: ', 
-                value: document.body.style.backgroundColor,
+                label: 'color: ', 
+                value: '#000000',   // hardcode to get hex
                 handler: (value) => { document.body.style.backgroundColor = value; }
             }),
+            element('h4', {textContent: 'Circle'}),
             ColorInput({
-                label: 'Circle Color: ', 
-                value: circle.fill,
+                label: 'color: ', 
+                value: circle.getAttribute('fill'),
                 handler: (value) => { circle.setAttribute('fill', value) }
             }),
             RangeInput({
-                label: 'Circle Size: ', 
-                value: circle.r,
+                label: 'size: ', 
+                value: circle.getAttribute('r'),
                 handler: (value) => { circle.setAttribute('r', value) }
             }),
+            element('h4', {textContent: 'Dropshadow'}),
             ColorInput({
-                label: 'Dropshadow Color: ', 
+                label: 'color: ', 
                 value: dropShadow.color,
                 handler: (value) => { updateDropshadow('color', value) }
             }),
             RangeInput({
-                label: 'Dropsahdow X Offset: ', 
+                label: 'x offset: ', 
                 value: dropShadow.xOffset,
                 handler: (value) => { updateDropshadow('xOffset', value) }
             }),
             RangeInput({
-                label: 'Dropsahdow Y Offset: ', 
+                label: 'y offset: ', 
                 value: dropShadow.yOffset,
                 handler: (value) => { updateDropshadow('yOffset', value) }
             }),
             RangeInput({
-                label: 'Dropsahdow Blur: ', 
+                label: 'blur: ', 
                 value: dropShadow.blur,
                 handler: (value) => { updateDropshadow('blur', value) }
             }),
